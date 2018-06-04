@@ -54,7 +54,7 @@ export default class PersonChat extends Component {
             },
         ];
 
-        return <div>
+        return <div className="chat-root">
             <div className="chat-msg">
                 {
                     msgList.map(item => {

@@ -47,7 +47,8 @@ const styles = theme => ({
     },
 
     main: {
-        flex: 30
+        flex: 30,
+        height: '100%'
     },
     button: {
         margin: theme.spacing.unit,
@@ -133,23 +134,23 @@ class CenteredTabs extends React.Component {
                     />
                 </nav>
                 <main className={classes.main}>
-                    <div>
-                        <Route
-                            path="/contact/:address"
-                            exact
-                            component={ContactDetail}
-                        />
 
-                        <Route
-                            path="/msg/:from"
-                            component={Chat}
-                        />
+                    <Route
+                        path="/contact/:address"
+                        exact
+                        component={ContactDetail}
+                    />
 
-                        <Route
-                            path="/setting"
-                            component={Setting}
-                        />
-                    </div>
+                    <Route
+                        path="/msg/:from"
+                        component={Chat}
+                    />
+
+                    <Route
+                        path="/setting"
+                        component={Setting}
+                    />
+
                 </main>
             </div>
         );
