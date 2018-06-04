@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import RecentContacts from '../RecentContacts';
 
 export default class PersonChat extends Component {
 
@@ -31,19 +32,26 @@ export default class PersonChat extends Component {
             },
         ];
 
-        const {from} = this.props.match.params;
+        return <div style={{display: 'flex'}}>
+            <RecentContacts/>
+            <div>
+                <div className="chat-msg" style={{height: 600, borderBottom: '1px solid #eee'}}>
+                    {
+                        msgList.map(item => {
+                            return <div>
+                                {
+                                    item.msg
+                                }
+                            </div>
 
-        return <div>
 
-            {
-                msgList.map(item => {
-                    return <div>
-                        {
-                            item.msg
-                        }
-                    </div>
-                })
-            }
+                        })
+                    }
+                </div>
+                <div className="chat-input" style={{height: 300}}>
+                    <input type="text"/>
+                </div>
+            </div>
         </div>
     }
 
