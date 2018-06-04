@@ -11,10 +11,11 @@ import AddIcon from '@material-ui/icons/Add';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import {Link} from "react-router-dom";
+
+import TextField from '@material-ui/core/TextField';
 
 
 function Transition(props) {
@@ -28,6 +29,7 @@ export default class Contacts extends Component {
         this.state = {
             open: false,
             selectedAddress: null,
+            address: null,
         }
     }
 
@@ -42,6 +44,9 @@ export default class Contacts extends Component {
 
     handleClose = () => {
         this.setState({open: false});
+    };
+    handleChangeAddress = () => {
+
     };
 
     render() {
@@ -146,20 +151,24 @@ export default class Contacts extends Component {
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle id="alert-dialog-slide-title">
-                    {"Use Google's location service?"}
+                    {"通过钱包地址添加好友"}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        Let Google help apps determine location. This means sending anonymous location data to
-                        Google, even when no apps are running.
-                    </DialogContentText>
+                    <TextField
+                        id="address"
+                        label="钱包地址"
+                        value={this.state.address}
+                        style={{width: 200}}
+                        onChange={this.handleChangeAddress}
+                        margin="normal"
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.handleClose} color="primary">
-                        Disagree
+                        取消
                     </Button>
                     <Button onClick={this.handleClose} color="primary">
-                        Agree
+                        确定
                     </Button>
                 </DialogActions>
             </Dialog>
