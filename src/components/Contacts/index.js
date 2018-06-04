@@ -14,6 +14,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import {Link} from "react-router-dom";
 
 
 function Transition(props) {
@@ -25,7 +26,7 @@ export default class Contacts extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            open: null,
+            open: false,
             selectedAddress: null,
         }
     }
@@ -61,34 +62,24 @@ export default class Contacts extends Component {
             },
         ];
 
-        return <div style={{display: 'flex'}}>
-            <div style={{width: 300, flex: 2, height: 900, overflowY: 'scroll'}}>
+        return <div>
+            <div style={{overflowY: 'scroll'}}>
                 <List>
                     {
-                        contacts.map(item => {
-                            return <ListItem button onClick={() => this.handleSelectAddress(item.address)}>
-                                <Avatar>
-                                    <BeachAccessIcon/>
-                                </Avatar>
-                                <ListItemText primary={item.name} secondary="July 20, 2014"/>
-                            </ListItem>
+                        contacts.map((item, index) => {
+                            return <Link to={`/contact/${item.address}`} key={index}>
+                                <ListItem button onClick={() => this.handleSelectAddress(item.address)}
+                                          key={item.address}>
+                                    <Avatar>
+                                        <BeachAccessIcon/>
+                                    </Avatar>
+                                    <ListItemText primary={item.name} secondary="July 20, 2014"/>
+                                </ListItem>
+                            </Link>
+
                         })
                     }
                 </List>
-            </div>
-            <div style={{flex: 7}}>
-                {
-                    selectedAddress && <div style={{padding: '1em'}}>
-                        <div>
-                            昵称: {contacts.filter(item => item.address === selectedAddress)[0].name}
-                        </div>
-
-                        <div>
-                            地址: {contacts.filter(item => item.address === selectedAddress)[0].address}
-                        </div>
-                    </div>
-                }
-
             </div>
             <Button
                 onClick={this.handleClickOpen}

@@ -33,11 +33,11 @@ export default class RecentContacts extends Component {
             },
         ];
 
-        return <div style={{width: 300, height: 900, overflowY: 'scroll'}}>
+        return <div>
             <List>
                 {
-                    contacts.map(item => {
-                        return <Link to={`/msg/${item.name}`}>
+                    contacts.map((item, index) => {
+                        return <Link to={`/msg/${item.name}`} key={index}>
                             <ListItem button>
                                 <Avatar>
                                     <BeachAccessIcon/>
