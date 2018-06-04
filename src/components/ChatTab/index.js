@@ -23,6 +23,20 @@ export default class PersonChat extends Component {
     //     console.log(enMsgList, deMsgList)
     // };
 
+    componentDidMount() {
+        // 1.获取address user info
+        /*
+        {
+          nickname:'mayne',
+          address: 'xxxxxxxxx',
+          publicKey:'xxxxxxxxxxxxx'
+        }
+        */
+
+        // 2.获取本人私钥
+
+    }
+
     render() {
 
         let myAddress = localStorage.getItem('nasAddress');

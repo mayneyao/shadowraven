@@ -60,10 +60,58 @@ export default class Contacts extends Component {
                 name: 'xxx',
                 address: 'n1KMmjBEQ8UNhum4pEYfvYpNB6V76paMYHh'
             },
+            {
+                name: 'mayne',
+                address: 'n1XyfmvA3Sc5F35neZRvnuHmoskHRVuwwXa'
+            },
+            {
+                name: 'ruter',
+                address: 'n1U9yTcVAcQo3HUtnNSxaW2vZQjFWQXCn5D'
+            },
+            {
+                name: 'xxx',
+                address: 'n1KMmjBEQ8UNhum4pEYfvYpNB6V76paMYHh'
+            },
+            {
+                name: 'mayne',
+                address: 'n1XyfmvA3Sc5F35neZRvnuHmoskHRVuwwXa'
+            },
+            {
+                name: 'ruter',
+                address: 'n1U9yTcVAcQo3HUtnNSxaW2vZQjFWQXCn5D'
+            },
+            {
+                name: 'xxx',
+                address: 'n1KMmjBEQ8UNhum4pEYfvYpNB6V76paMYHh'
+            },
+            {
+                name: 'mayne',
+                address: 'n1XyfmvA3Sc5F35neZRvnuHmoskHRVuwwXa'
+            },
+            {
+                name: 'ruter',
+                address: 'n1U9yTcVAcQo3HUtnNSxaW2vZQjFWQXCn5D'
+            },
+            {
+                name: 'xxx',
+                address: 'n1KMmjBEQ8UNhum4pEYfvYpNB6V76paMYHh'
+            },
+            {
+                name: 'mayne',
+                address: 'n1XyfmvA3Sc5F35neZRvnuHmoskHRVuwwXa'
+            },
+            {
+                name: 'ruter',
+                address: 'n1U9yTcVAcQo3HUtnNSxaW2vZQjFWQXCn5D'
+            },
+            {
+                name: 'xxx',
+                address: 'n1KMmjBEQ8UNhum4pEYfvYpNB6V76paMYHh'
+            },
         ];
 
-        return <div>
-            <div style={{overflowY: 'scroll'}}>
+        return <div style={{height: '100%'}}>
+            <div style={{overflowY: 'scroll', height: '100%'}}>
                 <List>
                     {
                         contacts.map((item, index) => {

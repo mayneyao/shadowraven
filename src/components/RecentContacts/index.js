@@ -31,10 +31,52 @@ export default class RecentContacts extends Component {
             {
                 name: 'AAAAAA',
             },
+            {
+                name: 'ABBBBBB',
+            },
+            {
+                name: 'AAAAAA',
+            },
+            {
+                name: 'BBBBBB',
+            },
+            {
+                name: 'BBBBBB',
+            },
+            {
+                name: '12312123',
+            },
+            {
+                name: 'ABBBBBB',
+            },
+            {
+                name: 'AAAAAA',
+            },
+            {
+                name: 'ABBBBBB',
+            },
+            {
+                name: 'AAAAAA',
+            },
+            {
+                name: 'BBBBBB',
+            },
+            {
+                name: 'BBBBBB',
+            },
+            {
+                name: '12312123',
+            },
+            {
+                name: 'ABBBBBB',
+            },
+            {
+                name: 'AAAAAA',
+            },
         ];
 
-        return <div>
-            <List>
+        return <div style={{height: '100%'}}>
+            <List style={{overflowY: 'scroll', height: '98%'}}>
                 {
                     contacts.map((item, index) => {
                         return <Link to={`/msg/${item.name}`} key={index}>
