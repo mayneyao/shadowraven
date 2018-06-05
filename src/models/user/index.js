@@ -1,4 +1,7 @@
 import nebulas from 'nebulas';
+import JSEncrypt from 'jsencrypt';
+
+import {getNasAddress} from '../../util/index';
 
 
 class User {
@@ -7,12 +10,11 @@ class User {
         let neb = new Neb();
         neb.setRequest(new HttpRequest("https://testnet.nebulas.io"));
         this.neb = neb;
-
     }
 
-    createUser(address, nickname) {
 
-    }
+    checkUserRegistered = () => {
 
+    };
 
 }

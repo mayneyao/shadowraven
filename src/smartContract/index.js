@@ -48,7 +48,7 @@ class ShadowRaven {
         }
     }
 
-    // a同意将b添加为好友
+    // a将b添加为好友
     addFriend(me, friendAddress) {
         let friendInfo = this.user.get(friendAddress);
         let myFriendList = this.userFriendList.get(me) || [];

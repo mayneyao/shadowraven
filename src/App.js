@@ -16,12 +16,13 @@ import Setting from './components/Setting';
 
 import './App.css';
 
-import {getNasAddress} from './util/index';
+import {contract, getNasAddress} from './util/index';
 import RecentContacts from "./components/RecentContacts/index";
-
 import Contacts from "./components/Contacts/index";
-
 import ContactDetail from "./components/ContactDetail/index";
+import Register from "./components/Register/index";
+import {HttpRequest, Neb} from 'nebulas';
+
 
 const styles = theme => ({
     root: {
@@ -57,6 +58,14 @@ const styles = theme => ({
 
 class CenteredTabs extends React.Component {
 
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            createDialogOpen: false
+        }
+    }
+
     handleChange = (value) => {
         this.setState({value}, () => {
             switch (value) {
@@ -74,8 +83,37 @@ class CenteredTabs extends React.Component {
         });
     };
 
+    checkUserRegistered = () => {
+        let address = 'n1XyfmvA3Sc5F35neZRvnuHmoskHRVuwwXa';
+        let neb = new Neb();
+        neb.setRequest(new HttpRequest("https://testnet.nebulas.io"));
+        let nebApi = neb.api;
+        if (address) {
+            let args = [];
+            nebApi.getNebState().then(state => {
+                nebApi.call({
+                    chainID: state.chain_id,
+                    from: address,
+                    to: contract,
+                    value: 0,
+                    gasPrice: 1000000,
+                    gasLimit: 2000000,
+                    contract: {
+                        function: 'getUserInfo',
+                        args: args + ""
+                    }
+                }).then(function (resp) {
+                    if (JSON.parse(resp.result)) {
+
+                    }
+                });
+            })
+        }
+    };
+
     componentDidMount() {
-        getNasAddress()
+        getNasAddress();
+        this.checkUserRegistered();
     }
 
     render() {
@@ -149,6 +187,11 @@ class CenteredTabs extends React.Component {
                     <Route
                         path="/setting"
                         component={Setting}
+                    />
+
+                    <Route
+                        path="/register"
+                        component={Register}
                     />
 
                 </main>

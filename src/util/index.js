@@ -15,7 +15,7 @@ export function splitStr(str, len) {
     if (str.length < len) {
         return [str]
     } else {
-        let res = []
+        let res = [];
         let group_num = Math.ceil(str.length / len);
         for (let i = 0; i < group_num; i++) {
             res.push(str.slice(i * len, (i + 1) * len));
@@ -42,4 +42,7 @@ export function getNasAddress() {
         }
     });
 };
+
+
+export const contract = 'n1zCMbHfTp2KHamJbhpRPtsriaivQjFaBa3';
 

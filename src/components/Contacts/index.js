@@ -25,7 +25,7 @@ function Transition(props) {
 
 export default class Contacts extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             open: false,
             selectedAddress: null,
