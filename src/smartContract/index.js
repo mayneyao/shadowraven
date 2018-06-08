@@ -23,9 +23,36 @@ class ShadowRaven {
     }
 
     // 获取用户信息
-    getUserInfo() {
+    getUserInfo(address) {
+        return this.user.get(address)
+    }
+
+    getMyInfo() {
         const address = Blockchain.transaction.from;
         return this.user.get(address)
+    }
+
+    getUserFriendList() {
+        const address = Blockchain.transaction.from;
+        return this.userFriendList.get(address)
+    }
+
+    getUserReceivedRequestList() {
+        const address = Blockchain.transaction.from;
+        return this.userReceivedRequestList.get(address)
+    }
+
+    // 获取与{address}的对话
+    getMsgWith(to) {
+        const from = Blockchain.transaction.from;
+        const fromMsgKey = from + to;
+        const toMsgKey = to + from;
+
+        let sentMsg = this.fromToMsgList.get(fromMsgKey);
+        let receiveMsg = this.fromToMsgList.get(toMsgKey);
+        let msgList = sentMsg.concat(receiveMsg);
+
+        return msgList.sort((a, b) => a.timestamp > b.timestamp)
     }
 
 
@@ -37,7 +64,6 @@ class ShadowRaven {
         let toUserInfo = this.user.get(to);
 
         if (toUserInfo) {
-
             let userReceivedRequestList = this.userReceivedRequestList.get(to) || [];
             userReceivedRequestList.push(Object.assign(from, {to}));
             this.userReceivedRequestList.put(to, userReceivedRequestList);
@@ -52,10 +78,11 @@ class ShadowRaven {
     addFriend(me, friendAddress) {
         let friendInfo = this.user.get(friendAddress);
         let myFriendList = this.userFriendList.get(me) || [];
-        if (!myFriendList.some(item => item.address === address)) {
+        if (!myFriendList.some(item => item.address === friendAddress)) {
             myFriendList.push({
                 nickname: friendInfo.nickname,
-                address
+                address: friendAddress,
+                publicKey: friendInfo.publicKey
             });
             this.userFriendList.put(me, myFriendList);
             return true
@@ -67,7 +94,7 @@ class ShadowRaven {
     deleteRequest(from) {
         const me = Blockchain.transaction.from;
         let myReceivedRequestList = this.userReceivedRequestList.get(me);
-        let myNewReceivedRequestList = myReceivedRequestList.filter(item => item !== from);
+        let myNewReceivedRequestList = myReceivedRequestList.filter(item => item.from !== from);
         this.userReceivedRequestList.put(me, myNewReceivedRequestList);
         return true
     }
@@ -103,20 +130,6 @@ class ShadowRaven {
         fromToMsgList.push(msg);
         this.fromToMsgList.put(msgKey, fromToMsgList);
         return true
-    }
-
-
-    // 获取与{address}的对话
-    getMsgWith(to) {
-        const from = Blockchain.transaction.from;
-        const fromMsgKey = from + to;
-        const toMsgKey = to + from;
-
-        let sentMsg = this.fromToMsgList.get(fromMsgKey);
-        let receiveMsg = this.fromToMsgList.get(toMsgKey);
-        let msgList = sentMsg.concat(receiveMsg);
-
-        return msgList.sort((a, b) => a.timestamp > b.timestamp)
     }
 
 }

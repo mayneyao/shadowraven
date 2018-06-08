@@ -44,5 +44,5 @@ export function getNasAddress() {
 };
 
 
-export const contract = 'n1zCMbHfTp2KHamJbhpRPtsriaivQjFaBa3';
+export const contract = 'n1kxLeijuvsZXqzEN3uPqGCPU5XeFnwhRh3';
 

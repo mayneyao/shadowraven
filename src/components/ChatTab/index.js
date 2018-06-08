@@ -1,10 +1,17 @@
 import React, {Component} from 'react';
+import Button from '@material-ui/core/Button';
 
 
 import '../../App.css';
 
 export default class PersonChat extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            inputMsg: ''
+        }
+    }
 
     // sendMsg = () => {
     //     let text = "This specification describes a JavaScript API for performing basic cryptographic operations in web applications, such as hashing, signature generation and verification, and encryption and decryption. Additionally, it describes an API for applications to generate and/or manage the keying material necessary to perform these operations. Uses for this API range from user or service authentication, document or code signing, and the confidentiality and integrity of communications."
@@ -23,6 +30,16 @@ export default class PersonChat extends Component {
     //     console.log(enMsgList, deMsgList)
     // };
 
+    handleInputChange = (e) => {
+        this.setState({
+            inputMsg: e.target.value
+        })
+    };
+
+    handleSendMsg = ()=>{
+        const {inputMsg} = this.state;
+        // enMsgList = this.encryptMsg(inputMsg)
+    };
     componentDidMount() {
         // 1.获取address user info
         /*
@@ -41,6 +58,7 @@ export default class PersonChat extends Component {
 
         let myAddress = localStorage.getItem('nasAddress');
 
+        const {inputMsg} = this.state;
         const msgList = [
             {
                 from: 'A',
@@ -85,7 +103,9 @@ export default class PersonChat extends Component {
                     })
                 }
             </div>
-            <textarea className="chat-input"/>
+            <textarea className="chat-input" value={inputMsg} onChange={this.handleInputChange}/>
+
+            <Button onClick={this.handleSendMsg}>发送</Button>
         </div>
     }
 

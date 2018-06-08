@@ -12,7 +12,7 @@ import TextField from '@material-ui/core/TextField';
 
 import JSEncrypt from 'jsencrypt';
 
-import {HttpRequest, Neb} from 'nebulas';
+import NebPay from 'nebpay.js';
 import {contract} from '../../util';
 
 
@@ -44,6 +44,9 @@ export default class Register extends Component {
 
     handleCreate = () => {
         const {nickname, address} = this.state;
+
+
+
         // 1. 生成密钥对
         let crypt = new JSEncrypt({default_key_size: 1024});
         // 获取公钥
@@ -56,29 +59,23 @@ export default class Register extends Component {
         let privateKey = crypt.getPrivateKey();
         localStorage.setItem('privateKey', privateKey);
 
-        let neb = new Neb();
-        neb.setRequest(new HttpRequest("https://testnet.nebulas.io"));
-        let nebApi = neb.api;
+
+        let nebPay = new NebPay();
+        console.log(nebPay);
+        let to = contract;
+        let amount = 0;
         if (address) {
             let args = JSON.stringify([nickname, publicKey]);
-            nebApi.getNebState().then(state => {
-                nebApi.call({
-                    chainID: state.chain_id,
-                    from: address,
-                    to: contract,
-                    value: 0,
-                    gasPrice: 1000000,
-                    gasLimit: 2000000,
-                    contract: {
-                        function: 'createUser',
-                        args
+            nebPay.call(to, amount, 'createUser', args,
+                {
+                    listener: (data) => {
+                        if (typeof data === 'object') {
+                            this.handleClose()
+                        }
                     }
-                }).then(function (resp) {
-                    console.log(resp.result)
-                });
-            })
+                }
+            );
         }
-
     };
 
     render() {

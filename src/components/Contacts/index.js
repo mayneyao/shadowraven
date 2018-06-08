@@ -16,6 +16,14 @@ import Slide from '@material-ui/core/Slide';
 import {Link} from "react-router-dom";
 
 import TextField from '@material-ui/core/TextField';
+import NebPay from 'nebpay.js';
+
+
+import {HttpRequest, Neb} from 'nebulas';
+import {contract} from '../../util';
+
+
+import {message} from '../../util/common';
 
 
 function Transition(props) {
@@ -29,7 +37,8 @@ export default class Contacts extends Component {
         this.state = {
             open: false,
             selectedAddress: null,
-            address: null,
+            address: '',
+            contacts: []
         }
     }
 
@@ -45,88 +54,76 @@ export default class Contacts extends Component {
     handleClose = () => {
         this.setState({open: false});
     };
-    handleChangeAddress = () => {
-
+    handleChangeAddress = (e) => {
+        this.setState({
+            address: e.target.value
+        })
     };
+
+    handleAddFriend = () => {
+        const {address} = this.state;
+
+        let nebPay = new NebPay();
+        console.log(nebPay);
+        let to = contract;
+        let amount = 0;
+        if (address) {
+            let args = JSON.stringify([address]);
+            nebPay.call(to, amount, 'requestAddFriend', args,
+                {
+                    listener: (data) => {
+                        if (typeof data === 'object') {
+                            message('请求已发出,等待对方确认');
+                            console.log(data);
+                            this.handleClose();
+                        }
+                    }
+                }
+            );
+        }
+    };
+
+    componentDidMount() {
+        let address = localStorage.getItem('nasAddress');
+        let neb = new Neb();
+        neb.setRequest(new HttpRequest("https://testnet.nebulas.io"));
+        let nebApi = neb.api;
+        let args = JSON.stringify([]);
+        nebApi.getNebState().then((state) => {
+            nebApi.call({
+                chainID: state.chain_id,
+                from: address,
+                to: contract,
+                value: 0,
+                gasPrice: 1000000,
+                gasLimit: 2000000,
+                contract: {
+                    function: 'getUserFriendList',
+                    args: args
+                }
+            }).then((resp) => {
+                let res = JSON.parse(resp.result);
+                this.setState({contacts: res || []})
+            });
+        });
+    }
 
     render() {
 
-        const {selectedAddress} = this.state;
-        const contacts = [
-            {
-                name: 'mayne',
-                address: 'n1XyfmvA3Sc5F35neZRvnuHmoskHRVuwwXa'
-            },
-            {
-                name: 'ruter',
-                address: 'n1U9yTcVAcQo3HUtnNSxaW2vZQjFWQXCn5D'
-            },
-            {
-                name: 'xxx',
-                address: 'n1KMmjBEQ8UNhum4pEYfvYpNB6V76paMYHh'
-            },
-            {
-                name: 'mayne',
-                address: 'n1XyfmvA3Sc5F35neZRvnuHmoskHRVuwwXa'
-            },
-            {
-                name: 'ruter',
-                address: 'n1U9yTcVAcQo3HUtnNSxaW2vZQjFWQXCn5D'
-            },
-            {
-                name: 'xxx',
-                address: 'n1KMmjBEQ8UNhum4pEYfvYpNB6V76paMYHh'
-            },
-            {
-                name: 'mayne',
-                address: 'n1XyfmvA3Sc5F35neZRvnuHmoskHRVuwwXa'
-            },
-            {
-                name: 'ruter',
-                address: 'n1U9yTcVAcQo3HUtnNSxaW2vZQjFWQXCn5D'
-            },
-            {
-                name: 'xxx',
-                address: 'n1KMmjBEQ8UNhum4pEYfvYpNB6V76paMYHh'
-            },
-            {
-                name: 'mayne',
-                address: 'n1XyfmvA3Sc5F35neZRvnuHmoskHRVuwwXa'
-            },
-            {
-                name: 'ruter',
-                address: 'n1U9yTcVAcQo3HUtnNSxaW2vZQjFWQXCn5D'
-            },
-            {
-                name: 'xxx',
-                address: 'n1KMmjBEQ8UNhum4pEYfvYpNB6V76paMYHh'
-            },
-            {
-                name: 'mayne',
-                address: 'n1XyfmvA3Sc5F35neZRvnuHmoskHRVuwwXa'
-            },
-            {
-                name: 'ruter',
-                address: 'n1U9yTcVAcQo3HUtnNSxaW2vZQjFWQXCn5D'
-            },
-            {
-                name: 'xxx',
-                address: 'n1KMmjBEQ8UNhum4pEYfvYpNB6V76paMYHh'
-            },
-        ];
+        const {selectedAddress, contacts} = this.state;
 
         return <div style={{height: '100%'}}>
             <div style={{overflowY: 'scroll', height: '100%'}}>
                 <List>
                     {
                         contacts.map((item, index) => {
-                            return <Link to={`/contact/${item.address}`} key={index}>
+                            return <Link to={`/msg/${item.address}`} key={index}>
                                 <ListItem button onClick={() => this.handleSelectAddress(item.address)}
                                           key={item.address}>
                                     <Avatar>
                                         <BeachAccessIcon/>
                                     </Avatar>
-                                    <ListItemText primary={item.name} secondary="July 20, 2014"/>
+                                    <ListItemText primary={item.nickname} secondary={item.address}/>
                                 </ListItem>
                             </Link>
 
@@ -167,7 +164,7 @@ export default class Contacts extends Component {
                     <Button onClick={this.handleClose} color="primary">
                         取消
                     </Button>
-                    <Button onClick={this.handleClose} color="primary">
+                    <Button onClick={this.handleAddFriend} color="primary">
                         确定
                     </Button>
                 </DialogActions>

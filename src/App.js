@@ -5,6 +5,7 @@ import {Route, withRouter} from "react-router-dom";
 import ContactsIcon from '@material-ui/icons/Contacts';
 import ChatIcon from '@material-ui/icons/ChatBubble';
 import SettingIcon from '@material-ui/icons/Settings';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -21,6 +22,9 @@ import RecentContacts from "./components/RecentContacts/index";
 import Contacts from "./components/Contacts/index";
 import ContactDetail from "./components/ContactDetail/index";
 import Register from "./components/Register/index";
+import Request from "./components/Request/index";
+
+import RequestDetail from "./components/Request/detail";
 import {HttpRequest, Neb} from 'nebulas';
 
 
@@ -69,6 +73,9 @@ class CenteredTabs extends React.Component {
     handleChange = (value) => {
         this.setState({value}, () => {
             switch (value) {
+                case 3:
+                    this.props.history.push("/request");
+                    break;
                 case 2:
                     this.props.history.push("/setting");
                     break;
@@ -125,6 +132,8 @@ class CenteredTabs extends React.Component {
             value = 1
         } else if (this.props.location.pathname === "/setting") {
             value = 2
+        } else if (this.props.location.pathname === "/request") {
+            value = 3
         }
         return (
             <div className={classes.root}>
@@ -140,11 +149,17 @@ class CenteredTabs extends React.Component {
                                 <ContactsIcon/>
                             </ListItemIcon>
                         </ListItem>
+                        <ListItem button onClick={() => this.handleChange(3)}>
+                            <ListItemIcon>
+                                <NotificationsIcon/>
+                            </ListItemIcon>
+                        </ListItem>
                         <ListItem button onClick={() => this.handleChange(2)}>
                             <ListItemIcon>
                                 <SettingIcon/>
                             </ListItemIcon>
                         </ListItem>
+
                     </List>
                 </nav>
 
@@ -170,8 +185,18 @@ class CenteredTabs extends React.Component {
                         path="/msg/:from"
                         component={RecentContacts}
                     />
+                    <Route
+                        path="/request"
+                        component={Request}
+                    />
                 </nav>
                 <main className={classes.main}>
+
+                    <Route
+                        path="/request/:address"
+                        exact
+                        component={RequestDetail}
+                    />
 
                     <Route
                         path="/contact/:address"
