@@ -19,60 +19,6 @@ export default class RecentContacts extends Component {
             {
                 name: 'BBBBBB',
             },
-            {
-                name: 'BBBBBB',
-            },
-            {
-                name: '12312123',
-            },
-            {
-                name: 'ABBBBBB',
-            },
-            {
-                name: 'AAAAAA',
-            },
-            {
-                name: 'ABBBBBB',
-            },
-            {
-                name: 'AAAAAA',
-            },
-            {
-                name: 'BBBBBB',
-            },
-            {
-                name: 'BBBBBB',
-            },
-            {
-                name: '12312123',
-            },
-            {
-                name: 'ABBBBBB',
-            },
-            {
-                name: 'AAAAAA',
-            },
-            {
-                name: 'ABBBBBB',
-            },
-            {
-                name: 'AAAAAA',
-            },
-            {
-                name: 'BBBBBB',
-            },
-            {
-                name: 'BBBBBB',
-            },
-            {
-                name: '12312123',
-            },
-            {
-                name: 'ABBBBBB',
-            },
-            {
-                name: 'AAAAAA',
-            },
         ];
 
         return <div style={{height: '100%'}}>

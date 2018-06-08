@@ -90,7 +90,6 @@ class ShadowRaven {
     }
 
     // 删除来之{from}的请求
-
     deleteRequest(from) {
         const me = Blockchain.transaction.from;
         let myReceivedRequestList = this.userReceivedRequestList.get(me);
